@@ -3,7 +3,7 @@ const cors = require("cors");
 const session = require("express-session");
 const app = express();
 const KhachHangRouter = require("./app/routes/khachhang.route");
-const NhanVienRouter = require("./app/routes/nhanvien.route");
+const AdminRouter = require("./app/routes/admin.route");
 app.use(cors());
 app.use(express.json()); 
 
@@ -15,7 +15,7 @@ app.use(session({
 }));
 
 app.use("/api/khachhang", KhachHangRouter);
-app.use("/api/admin", NhanVienRouter);
+app.use("/api/admin", AdminRouter);
 
 app.use((req, res, next) => {
     return next(new ApiError(404, "Resource not found"));
@@ -31,36 +31,5 @@ app.use((err, req, res, next) => {
 module.exports = app;
 
 
-
-//var bodyParser = require('body-parser');  // lay du lieu gui dnag form post
-//app.use(bodyParser.urlencoded({extended: false}))
-//app.use(bodyParser.json());
-//
-/*app.get("/login", (req,res) => {
-      res.send("Nhập vào thông tin đăng nhập");
-});
-
-app.post("/login", (req, res) => {
-    req.session.user = { id: 1, username: "exampleuser" }; // Lưu thông tin đăng nhập vào phiên
-    res.send("Đăng nhập thành công");
-    
-});
-app.get("/", (req, res) => {
-    res.send("Trang chủ");
-});
-app.get("/cart", (req, res) => {
-    if (req.session.user) {
-        // Người dùng đã đăng nhập
-        res.send(`Xin chào, ${req.session.user.username}`);
-    } else {
-        // Người dùng chưa đăng nhập
-        res.send("Vui lòng đăng nhập để truy cập trang này");
-    }
-});
-app.get("/logout", (req, res) => {
-    delete req.session.user;
-    // Chuyển hướng đến trang đăng nhập sau khi xoá biến user
-}); 
-*/
 
 

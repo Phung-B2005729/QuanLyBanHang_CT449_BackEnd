@@ -2,16 +2,15 @@ const { ObjectId } = require("mongodb");
 const jwt = require('jsonwebtoken');
 class KhachHangService {
     constructor(client){
-        this.collectionKhachHang = client.db().collection("Khachhang");
+        this.collectionKhachHang = client.db().collection("khachhang");
     }
     extractKhachHangData(payload){
-        var pass = jwt.sign('', payload.password);
-       
+        
         // lay du lieu doi tuong KhachHang va loai bo cac thuoc tinh undefined
         const khachHang = {
             hoten: payload.hoten,
             sdt: payload.sdt,
-            password: pass,
+            password: payload.password,
             diachi : payload.diachi ?? ''
         }
         Object.keys(khachHang).forEach((key)=>{
@@ -23,6 +22,7 @@ class KhachHangService {
     }
     async create(payload){
         const khachHang = await this.extractKhachHangData(payload);
+        khachHang.password = await jwt.sign("", khachHang.password);
         console.log("khachhang " +khachHang);
         try {
          const ketqua = await this.collectionKhachHang.insertOne(khachHang);

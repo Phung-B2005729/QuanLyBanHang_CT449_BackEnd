@@ -2,7 +2,7 @@ const express =  require("express");
 const router = express.Router();
 const ApiError = require("../api-error");
 router.use((req, res, next) => {
-    if (req.session.user) {
+    if (req.session.admin) {
        next();
     } else {
         // Người dùng chưa đăng nhập
