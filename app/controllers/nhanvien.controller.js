@@ -62,7 +62,7 @@ exports.findAll = async (req,res, next) => {
             hoten: document.hoten,
             chuvu: document.chuvu // Ví dụ: lưu tên người dùng
           };
-          console.log(req.session.user);
+          console.log(req.session.admin);
           return res.send({
             message: "Login successfully",
             token: req.session.admin

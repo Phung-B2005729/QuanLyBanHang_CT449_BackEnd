@@ -1,6 +1,6 @@
 const { ObjectId } = require("mongodb");
 const jwt = require('jsonwebtoken');
-class KhachHangService {
+class NhanVienService {
     constructor(client){
         this.collectionNhanVien = client.db().collection("nhanvien");
     }
@@ -49,6 +49,42 @@ class KhachHangService {
     async findOne(filter){
         return await this.collectionNhanVien.findOne(filter);
         
+    }
+    async findByName(hoten){
+        return await this.find({
+            hoten: {
+                $regex: new RegExp(hoten), $options: "i"
+            }
+        });
+    }
+    async update(id, payload){
+        console.log(id);
+        const filter = {
+            _id: ObjectId.isValid(id) ? new ObjectId(id): null,
+        };
+        console.log("fileder" + filter);
+        const update = this.extractNhanVienData(payload);
+        console.log(update);
+        const result = await this.collectionNhanVien.findOneAndUpdate(
+            filter, 
+            { $set: update}, 
+            {returnDocument: "after"}
+        );
+        console.log(result);
+        return result;
+    }
+    async delete(id){
+        console.log('goi ham delete conver  ' + id);
+       const result = await this.collectionNhanVien.findOneAndDelete({
+        _id: ObjectId.isValid(id) ? new ObjectId(id): null,
+       });
+       console.log("resu " +result);
+       return result;
+    }
+
+    async deleteAll(){
+        const resutl = await this.collectionNhanVien.deleteMany({});
+        return resutl.deleteCount;
     }
 
 }

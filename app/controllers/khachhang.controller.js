@@ -13,11 +13,14 @@ exports.create = async (req, res, next) => {
         const existingSdt = await khachHangService.findOne({sdt : req.body.sdt});
         console.log(existingSdt);
         if (existingSdt) {
-            return next(new ApiError(400, "Số điện thoại đã được sử dụng."));
+            return next(new ApiError(404, "Số điện thoại đã được sử dụng."));
           }
        
         const document = await khachHangService.create(req.body);
-        return res.send(document); 
+        return res.send({
+          message: 'Tạo user thành công',
+          newuser: document
+        }); 
       }catch(e){
         return next(new ApiError(500, "An error ocurred while creating the account"));
       }
@@ -67,7 +70,7 @@ exports.findAll = async (req,res, next) => {
         console.log(req.session.user);
         return res.send({
           message: "Login successfully",
-          token: req.session.user.hoten
+          token: req.session.user
       });
     }catch(error){
       return next(new ApiError(500, "Lỗi server"));
