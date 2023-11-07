@@ -34,7 +34,20 @@ exports.create = async (req, res, next) => {
     return next(new ApiError(500, "Lỗi server"));
   }
 };
-
+exports.findALLByIdKhachHangVaIdSanPham = async (req,res, next) => {
+    let document = [];
+   try{
+    const gioHangService = new GioHangService(MongoDB.client);
+    document = await gioHangService.findOne({
+        idkhachhang: req.params.idkhachhang,
+        idhanghoa: req.params.idhanghoa,
+    });
+ 
+   }catch(error){
+    return next(new ApiError(500, `Lỗi server hàng hoá giỏ hàng with id=${req.params.idkhachhang} và ${req.params.idhanghoa}`));
+   }
+   return res.send(document);
+};
 
 exports.findALLByIdKhachHang = async (req,res, next) => {
     let document = [];
