@@ -9,4 +9,6 @@ router.route("/:id").get(hinhanh.findOne).put(hinhanh.update).delete(hinhanh.del
 
 router.route("/idhanghoa/:id").get(hinhanh.findByIdHangHoa);
 
+router.route("/upload").post(hinhanh.upload)
+
 module.exports = router;

@@ -1,8 +1,33 @@
 const ApiError = require("../api-error");
-const HinhAnhService = require("../services/loaihang.services");
+const HinhAnhService = require("../services/hinhanh.services");
 const MongoDB = require("../utils/mongodb.util");
 const jwt = require('jsonwebtoken');
+const { singleUpload, formatBuffer, cloudinaryUpload } = require("../services/upload.services");
 
+
+exports.upload = async (req, res,next) => {
+    try {
+        singleUpload(req, res, async (error) => {
+            if (error) {
+                return next(new ApiError(404, "Image upload failed"));
+            }
+
+            const file64 = formatBuffer(req.file);
+            const uploadResult = await cloudinaryUpload(file64.content);
+            console.log(uploadResult);
+
+            // Thêm mã xử lý tải lên ảnh vào cơ sở dữ liệu ở đây nếu cần
+
+            return res.send({
+                cloudinaryId: uploadResult.public_id,
+                url: uploadResult.secure_url,
+                message: "Upload OK!",
+            });
+        });
+    } catch (error) {
+        return next(new ApiError(404, error.message));
+    }
+}
 
 exports.create = async (req, res, next) => {
     if(req.body.linkanh==null){
@@ -20,7 +45,7 @@ exports.create = async (req, res, next) => {
               });  */
            //   return next(new ApiError(404, "Loại hàng đã tồn tại"));
          // }
-            const newHinhAnh = await HinhAnhService.create(req.body);
+            const newHinhAnh = await hinhAnhService.create(req.body);
             return res.send({
                 message: 'Đã thêm mới',
                 newHinhAnh: newHinhAnh

@@ -9,13 +9,16 @@ class HinhAnhService {
         // lay du lieu doi tuong KhachHang va loai bo cac thuoc tinh undefined
         const hinhanh = {
             linkanh: payload.linkanh,
+            tenanh: payload.tenanh,
             idhanghoa: payload.idhanghoa
         }
+        
         Object.keys(hinhanh).forEach((key)=>{
             if (hinhanh[key] === undefined || hinhanh[key] === null) {
                 hinhanh[key] = '';
             }
         });
+        console.log(hinhanh);
         return hinhanh;
     }
     // thêm
