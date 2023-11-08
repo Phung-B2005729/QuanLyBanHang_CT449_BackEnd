@@ -20,6 +20,19 @@ class KhachHangService {
         });
         return khachHang;
     }
+    extractKhachHangDataUpdate(payload){
+        // lay du lieu doi tuong KhachHang va loai bo cac thuoc tinh undefined
+        const khachHang = {
+            hoten: payload.hoten,
+            sdt: payload.sdt,
+            password: payload.password,
+            diachi : payload.diachi
+        }
+        Object.keys(khachHang).forEach((key)=>{
+            khachHang[key] === undefined && delete khachHang[key]
+        });
+        return khachHang;
+    }
     async create(payload){
         const khachHang = await this.extractKhachHangData(payload);
         khachHang.password = await jwt.sign("", khachHang.password);
@@ -62,7 +75,7 @@ class KhachHangService {
             _id: ObjectId.isValid(id) ? new ObjectId(id): null,
         };
         console.log("fileder" + filter);
-        const update = this.extractKhachHangData(payload);
+        const update = this.extractKhachHangDataUpdate(payload);
         console.log(update);
         const result = await this.collectionKhachHang.findOneAndUpdate(
             filter, 

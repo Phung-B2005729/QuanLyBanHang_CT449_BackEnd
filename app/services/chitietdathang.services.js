@@ -12,7 +12,6 @@ class ChiTietDatHangService {
             idhanghoa: payload.idhanghoa,
             soluong: payload.soluong,
             gia: payload.gia,
-            giagiam: payload.giagiam
         }
         Object.keys(chitietdathang).forEach((key)=>{
             if (chitietdathang[key] === undefined || chitietdathang[key] === null) {
@@ -21,6 +20,20 @@ class ChiTietDatHangService {
         });
         return chitietdathang;
     }
+    extractchitietdathangDataUpdate(payload){
+        // lay du lieu doi tuong KhachHang va loai bo cac thuoc tinh undefined
+        const chitietdathang = {
+            iddathang: payload.iddathang,
+            idhanghoa: payload.idhanghoa,
+            soluong: payload.soluong,
+            gia: payload.gia,
+        }
+        Object.keys(chitietdathang).forEach((key)=>{
+            chitietdathang[key] === undefined && delete chitietdathang[key]
+        });
+        return chitietdathang;
+    }
+
     async create(payload){   
         const chitietdathang = this.extractchitietdathangData(payload);
         try {

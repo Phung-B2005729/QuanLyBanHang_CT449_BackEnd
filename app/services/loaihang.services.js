@@ -6,7 +6,7 @@ class LoaiHangService {
         this.collectionLoaiHang = client.db().collection("loaihang");
     }
     extractLoaiHangData(payload){
-        // lay du lieu doi tuong KhachHang va loai bo cac thuoc tinh undefined
+        // lay du lieu doi tuong loaihang va loai bo cac thuoc tinh undefined
         const loaihang = {
             tenloai: payload.tenloai
         }
@@ -14,6 +14,16 @@ class LoaiHangService {
             if (loaihang[key] === undefined || loaihang[key] === null) {
                 loaihang[key] = '';
             }
+        });
+        return loaihang;
+    }
+    extractLoaiHangDataUpdate(payload){
+        // lay du lieu doi tuong loaihang va loai bo cac thuoc tinh undefined
+        const loaihang = {
+            tenloai: payload.tenloai
+        }
+        Object.keys(loaihang).forEach((key)=>{
+            loaihang[key] === undefined && delete loaihang[key]
         });
         return loaihang;
     }
@@ -59,7 +69,7 @@ class LoaiHangService {
             _id: ObjectId.isValid(id) ? new ObjectId(id): null,
         };
         console.log("fileder" + filter);
-        const update = this.extractLoaiHangData(payload);
+        const update = this.extractLoaiHangDataUpdate(payload);
         console.log(update);
         const result = await this.collectionLoaiHang.findOneAndUpdate(
             filter, 

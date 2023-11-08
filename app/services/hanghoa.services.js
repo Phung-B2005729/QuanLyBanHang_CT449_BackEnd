@@ -18,11 +18,31 @@ class HangHoaService {
            // idanh: payload.idanh, idhh lm khoa ngoai cho ban anh
             idloai: payload.idloai,
         }
-       
         Object.keys(hangHoa).forEach((key)=>{
             if (hangHoa[key] === undefined || hangHoa[key] === null) {
                 hangHoa[key] = '';
             }
+        });
+        console.log(hangHoa);
+        return hangHoa;
+    }
+    extractHangHoaDataUpdate(payload){
+        // lay du lieu doi tuong KhachHang va loai bo cac thuoc tinh undefined
+        const hangHoa = {
+            tenhh: payload.tenhh,
+            mota: payload.mota, // trọng lượng, hướng dẫn sử dụng ...
+            gia: payload.gia,
+            soluong : payload.soluong, // số lượng trong kho
+            phankhuc: payload.phankhuc, // meo lon, meo nho, cho lon, cho nho
+            thuonghieu: payload.thuonghieu,
+            ghichu: payload.ghichu,
+            hansudung: payload.hansudung, // ngày hết hạn
+            ngaysanxuat: payload.ngaysanxuat,  // ngày sản xuất
+           // idanh: payload.idanh, idhh lm khoa ngoai cho ban anh
+            idloai: payload.idloai,
+        }
+        Object.keys(hangHoa).forEach((key)=>{
+            hangHoa[key] === undefined && delete hangHoa[key]
         });
         console.log(hangHoa);
         return hangHoa;
@@ -70,7 +90,7 @@ class HangHoaService {
             _id: ObjectId.isValid(id) ? new ObjectId(id): null,
         };
         console.log("fileder" + filter);
-        const update = this.extractHangHoaData(payload);
+        const update = this.extractHangHoaDataUpdate(payload);
         console.log(update);
         const result = await this.collectionHangHoa.findOneAndUpdate(
             filter, 

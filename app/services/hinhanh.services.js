@@ -10,13 +10,27 @@ class HinhAnhService {
         const hinhanh = {
             linkanh: payload.linkanh,
             tenanh: payload.tenanh,
-            idhanghoa: payload.idhanghoa
+            idhinhanh: payload.idhinhanh
         }
         
         Object.keys(hinhanh).forEach((key)=>{
             if (hinhanh[key] === undefined || hinhanh[key] === null) {
                 hinhanh[key] = '';
             }
+        });
+        console.log(hinhanh);
+        return hinhanh;
+    }
+    extractHinhAnhDataUpdate(payload){
+        // lay du lieu doi tuong KhachHang va loai bo cac thuoc tinh undefined
+        const hinhanh = {
+            linkanh: payload.linkanh,
+            tenanh: payload.tenanh,
+            idhinhanh: payload.idhinhanh
+        }
+        
+        Object.keys(hinhanh).forEach((key)=>{
+            hinhanh[key] === undefined && delete hinhanh[key]
         });
         console.log(hinhanh);
         return hinhanh;
@@ -60,7 +74,7 @@ class HinhAnhService {
             _id: ObjectId.isValid(id) ? new ObjectId(id): null,
         };
         console.log("fileder" + filter);
-        const update = this.extractHinhAnhData(payload);
+        const update = this.extractHinhAnhDataUpdate(payload);
         console.log(update);
         const result = await this.collentionHinhAnh.findOneAndUpdate(
             filter, 

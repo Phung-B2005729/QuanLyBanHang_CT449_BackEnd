@@ -11,7 +11,9 @@ class DatHangService {
             ngaygiao: payload.ngaygiao,
             diachigiao: payload.diachigiao,
             phigiao: payload.phigiao,
+            phigiamgia: payload.phigiamgia,
             tinhtrang : payload.tinhtrang ?? 'Chờ xác nhân',
+            phuongthucthanhtoan: payload.phươngthucthanhtoan ?? 'Thanh toán khi nhận hàng',
             tongtien: payload.tongtien,
             idkhachhang: payload.idkhachhang,
             idnhanvien: payload.idnhanvien
@@ -23,12 +25,33 @@ class DatHangService {
         });
         return datHang;
     }
+    extractDatHangDataUpdate(payload){
+        
+        // lay du lieu doi tuong datHang va loai bo cac thuoc tinh undefined
+        const datHang = {
+            ngaydat: payload.ngaydat,
+            ngaygiao: payload.ngaygiao,
+            diachigiao: payload.diachigiao,
+            phigiao: payload.phigiao,
+            phigiamgia: payload.phigiamgia,
+            tinhtrang : payload.tinhtrang ,
+            phuongthucthanhtoan: payload.phươngthucthanhtoan,
+            tongtien: payload.tongtien,
+            idkhachhang: payload.idkhachhang,
+            idnhanvien: payload.idnhanvien
+        }
+        Object.keys(datHang).forEach((key)=>{
+            datHang[key] === undefined && delete datHang[key]
+        });
+        return datHang;
+    }
     async create(payload){
-        const datHang = await this.extractDatHangData(payload);
-        console.log("datHang " +datHang);
+        const datHang =  this.extractDatHangData(payload);
+        console.log("datHang " +datHang.ngaydat);
         try {
          const ketqua = await this.collectionDatHang.insertOne(datHang);
          console.log('Insert thành công');
+         console.log(ketqua);
          return ketqua;
         }
         catch(err){
@@ -57,7 +80,7 @@ class DatHangService {
             _id: ObjectId.isValid(id) ? new ObjectId(id): null,
         };
         console.log("fileder" + filter);
-        const update = this.extractDatHangData(payload);
+        const update = this.extractDatHangDataUpdate(payload);
         console.log(update);
         const result = await this.collectionDatHang.findOneAndUpdate(
             filter, 
@@ -74,6 +97,10 @@ class DatHangService {
        });
        console.log("resu " +result);
        return result;
+    }
+    async deleteAll(){
+        const resutl = await this.collectionDatHang.deleteMany({});
+        return resutl.deleteCount;
     }
 
 }

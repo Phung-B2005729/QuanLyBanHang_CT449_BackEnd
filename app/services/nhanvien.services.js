@@ -6,7 +6,7 @@ class NhanVienService {
     }
     extractNhanVienData(payload){
         
-        // lay du lieu doi tuong KhachHang va loai bo cac thuoc tinh undefined
+        // lay du lieu doi tuong nhanVien va loai bo cac thuoc tinh undefined
         const nhanVien = {
             hoten: payload.hoten,
             sdt: payload.sdt,
@@ -19,7 +19,22 @@ class NhanVienService {
                 nhanVien[key] = '';
             }
         });
-        return khachHang;
+        return nhanVien;
+    }
+    extractNhanVienDataUpdate(payload){
+        
+        // lay du lieu doi tuong nhanVien va loai bo cac thuoc tinh undefined
+        const nhanVien = {
+            hoten: payload.hoten,
+            sdt: payload.sdt,
+            password: payload.password,
+            diachi : payload.diachi ?? '',
+            chucvu: payload.chucvu
+        }
+        Object.keys(nhanVien).forEach((key)=>{
+            nhanVien[key] === undefined && delete nhanVien[key]
+        });
+        return nhanVien;
     }
     async create(payload){
         const nhanVien = await this.extractNhanVienData(payload);
@@ -63,7 +78,7 @@ class NhanVienService {
             _id: ObjectId.isValid(id) ? new ObjectId(id): null,
         };
         console.log("fileder" + filter);
-        const update = this.extractNhanVienData(payload);
+        const update = this.extractNhanVienDataUpdate(payload);
         console.log(update);
         const result = await this.collectionNhanVien.findOneAndUpdate(
             filter, 

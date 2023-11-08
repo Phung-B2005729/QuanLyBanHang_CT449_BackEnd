@@ -20,6 +20,19 @@ class GioHangService {
         });
         return giohang;
     }
+    extractgiohangDataUpdate(payload){
+        // lay du lieu doi tuong KhachHang va loai bo cac thuoc tinh undefined
+        const giohang = {
+            idkhachhang: payload.idkhachhang,
+            idhanghoa: payload.idhanghoa,
+            soluong: payload.soluong,
+            gia: payload.gia
+        }
+        Object.keys(giohang).forEach((key)=>{
+            giohang[key] === undefined && delete giohang[key]
+        });
+        return giohang;
+    }
     async create(payload){   
         const giohang = this.extractgiohangData(payload);
         try {
@@ -48,7 +61,7 @@ class GioHangService {
             _id: ObjectId.isValid(id) ? new ObjectId(id): null,
         };
         console.log("fileder" + filter);
-        const update = this.extractgiohangData(payload);
+        const update = this.extractgiohangDataUpdate(payload);
         console.log(update);
         const result = await this.collectionGioHang.findOneAndUpdate(
             filter, 
@@ -87,7 +100,7 @@ class GioHangService {
     
     async deleteALLGioHangKhachHang(idkhachhang){
         console.log('goi ham delete conver  ' + idkhachhang);
-        const filter = { idkhachhang: idKhachhang };
+        const filter = { idkhachhang: idkhachhang };
        const result = await this.collectionGioHang.deleteMany(filter);
        console.log("resu " +result);
        return result;

@@ -51,11 +51,13 @@ exports.findALLByIdKhachHangVaIdSanPham = async (req,res, next) => {
 exports.findALLByIdSanPham = async (req,res, next) => {
     let document = [];
    try{
+    console.log("tim kiem sp "+req.params.idhanghoa);
     const gioHangService = new GioHangService(MongoDB.client);
+    
     document = await gioHangService.find({
         idhanghoa: req.params.idhanghoa,
     });
- 
+   
    }catch(error){
     return next(new ApiError(500, `Lỗi server hàng hoá giỏ hàng with id= ${req.params.idhanghoa}`));
    }
@@ -67,11 +69,11 @@ exports.findALLByIdKhachHang = async (req,res, next) => {
    try{
     const gioHangService = new GioHangService(MongoDB.client);
     document = await gioHangService.find({
-        idkhachhang: req.params.id
+        idkhachhang: req.params.idkhachhang
     });
  
    }catch(error){
-    return next(new ApiError(500, `Lỗi server hàng hoá giỏ hàng with id=${req.params.id}`));
+    return next(new ApiError(500, `Lỗi server hàng hoá giỏ hàng with id=${req.params.idkhachhang}`));
    }
    return res.send(document);
 };
@@ -118,7 +120,7 @@ exports.deleteAllGioHangKhachHang = async (req, res, next) => {
    try {
     const gioHangService = new GioHangService(MongoDB.client);
 
-    const deleteCount = await gioHangService.deleteALLGioHangKhachHang(req.params.id);
+    const deleteCount = await gioHangService.deleteALLGioHangKhachHang(req.params.idkhachhang);
     console.log('documentConut ' + deleteCount);
     return res.send({
         message: `${deleteCount} deleted successfully`
