@@ -35,16 +35,29 @@ exports.create = async (req, res, next) => {
   }
 };
 exports.findALLByIdKhachHangVaIdSanPham = async (req,res, next) => {
+   try{
+    const gioHangService = new GioHangService(MongoDB.client);
+   const document = await gioHangService.findOne({
+        idkhachhang: req.params.idkhachhang,
+        idhanghoa: req.params.idhanghoa,
+    });
+    return res.send(document);
+ 
+   }catch(error){
+    return next(new ApiError(500, `Lỗi server hàng hoá giỏ hàng with id=${req.params.idkhachhang} và ${req.params.idhanghoa}`));
+   }
+   
+};
+exports.findALLByIdSanPham = async (req,res, next) => {
     let document = [];
    try{
     const gioHangService = new GioHangService(MongoDB.client);
-    document = await gioHangService.findOne({
-        idkhachhang: req.params.idkhachhang,
+    document = await gioHangService.find({
         idhanghoa: req.params.idhanghoa,
     });
  
    }catch(error){
-    return next(new ApiError(500, `Lỗi server hàng hoá giỏ hàng with id=${req.params.idkhachhang} và ${req.params.idhanghoa}`));
+    return next(new ApiError(500, `Lỗi server hàng hoá giỏ hàng with id= ${req.params.idhanghoa}`));
    }
    return res.send(document);
 };

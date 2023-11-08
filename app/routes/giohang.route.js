@@ -11,4 +11,8 @@ router.route("/:id").put(giohang.update).delete(giohang.delete);
 
 router.route("/khachhang/:id").get(giohang.findALLByIdKhachHang).delete(giohang.deleteAllGioHangKhachHang);
 router.route("/:idkhachhang/:idhanghoa").get(giohang.findALLByIdKhachHangVaIdSanPham);
+router.route("/hanghoa/:idhanghoa").get(giohang.findALLByIdSanPham);
+
+
+
 module.exports = router;

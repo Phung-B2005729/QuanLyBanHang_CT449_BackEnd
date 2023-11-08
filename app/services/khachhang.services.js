@@ -49,7 +49,40 @@ class KhachHangService {
         return await this.collectionKhachHang.findOne(filter);
         
     }
-
+    async findByName(name){
+        return await this.find({
+            hoten: {
+                $regex: new RegExp(name), $options: "i"
+            }
+        });
+    }
+    async update(id, payload){
+        console.log(id);
+        const filter = {
+            _id: ObjectId.isValid(id) ? new ObjectId(id): null,
+        };
+        console.log("fileder" + filter);
+        const update = this.extractKhachHangData(payload);
+        console.log(update);
+        const result = await this.collectionKhachHang.findOneAndUpdate(
+            filter, 
+            { $set: update}, 
+            {returnDocument: "after"}
+        );
+        console.log(result);
+        return result;
+    }
+    async delete(id){
+        console.log('goi ham delete conver  ' + id);
+       const result = await this.collectionKhachHang.findOneAndDelete({
+        _id: ObjectId.isValid(id) ? new ObjectId(id): null,
+       });
+       console.log("resu " +result);
+    }
+    async deleteAll(){
+        const resutl = await this.collectionNhanVien.deleteMany({});
+        return resutl.deleteCount;
+    }
 }
 
 module.exports = KhachHangService;

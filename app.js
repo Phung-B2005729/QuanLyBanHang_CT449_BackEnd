@@ -16,6 +16,8 @@ const LoaiHangRouter = require("./app/routes/loaihang.route");
 const HinhAnhRouter= require("./app/routes/hinhanh.route");
 const GioHangRouter= require("./app/routes/giohang.route");
 const ChiTietDatHangRouter = require("./app/routes/chitietdathang.route");
+const DatHangRouter = require("./app/routes/dathang.route");
+const nhanVienRouter = require("./app/routes/nhanvien.route");
 //
 app.use(cors());
 app.use(express.json()); 
@@ -48,13 +50,14 @@ app.use(session({
 app.use("/api/khachhang", KhachHangRouter);
 // admin
 app.use("/api/admin", AdminRouter);
-
+app.use("/api/nhanvien", nhanVienRouter);
 // hang hoa
 app.use("/api/hanghoa", HangHoaRouter);
 app.use("/api/loaihang", LoaiHangRouter);
 app.use("/api/hinhanh", HinhAnhRouter);
 app.use("/api/giohang", GioHangRouter);
 app.use("/api/chitietdathang", ChiTietDatHangRouter);
+app.use("/api/dathang", DatHangRouter);
 // khawcs loi truy cap dg link khac
 app.use((req, res, next) => {
     return next(new ApiError(404, "Resource not found"));

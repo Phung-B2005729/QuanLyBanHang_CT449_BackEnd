@@ -3,13 +3,13 @@ const NhanVienService = require("../services/nhanvien.services");
 const MongoDB = require("../utils/mongodb.util");
 
 exports.create = async (req, res, next) => {
-      if(!req.body.sdt && !req.body.password && !req.body.hoten){
+      if(!req.body.hoten && !req.body.sdt){
         return next(new ApiError(400, "Data can not be empty"));
       }
       try{
         console.log('Insert controller');
         const nhanVienService = new NhanVienService(MongoDB.client);
-        const existingSdt = await hanVienService.findOne({sdt : req.body.sdt});
+        const existingSdt = await nhanVienService.findOne({sdt : req.body.sdt});
         console.log(existingSdt);
         if (existingSdt) {
             return next(new ApiError(400, "Số điện thoại đã được sử dụng."));
@@ -27,17 +27,17 @@ exports.findAll = async (req,res, next) => {
     let document = [];
     try{
     const nhanVienService = new NhanVienService(MongoDB.client);
-   // const { name } = req.query;
+   const { hoten } = req.query;
     
-   // if(name){
-   //   document = await contactService.findByName(name);
-   // }
-    //else{
+    if(hoten){
+      document = await nhanVienService.findByName(hoten);
+    }
+    else{
      document = await nhanVienService.find({});
-    //}
+    }
  }catch(err){
      return next(
-         new ApiError(500, "An error occured while retrieving contacts")
+         new ApiError(500, "An error occured while retrieving s")
      );
  }
  return res.send(document);
@@ -49,9 +49,9 @@ exports.findAll = async (req,res, next) => {
     try {
         const nhanVienService = new NhanVienService(MongoDB.client);
         console.log('Gọi login');
-       // var pass = await jwt.sign("", req.body.password);
+        var pass = await jwt.sign("", req.body.password);
         console.log(pass);
-        const document = await nhanVienService.findOne({sdt : req.body.sdt, password: req.body.password});
+        const document = await nhanVienService.findOne({sdt : req.body.sdt, password: pass});
         console.log(document);
         if(!document){
             return next(new ApiError(404, "Login failed"))
@@ -88,6 +88,69 @@ exports.logout = async (req, res, next) => {
   }catch(e){
     return next(new ApiError(500, "Lỗi server"));
   }
+}
+exports.update = async (req,res, next) => {
+    if(Object.keys(req.body).length == 0){
+     return next(new ApiError(400,"Data to update can not be empty"));
+    }
+    try{
+     const nhanVienService = new NhanVienService(MongoDB.client);
+     console.log("goi ham update " + req.params.id + " " + req.body);
+     const document = await nhanVienService.update(req.params.id, req.body);
+     if(!document){
+         return next(new ApiError(404," not found"));
+     }
+     return res.send({
+         message: "updated successfully"
+     });
+    }catch(err){
+     return next(new ApiError(500, `Lỗi server update  with id=${req.params.id}`));
+    }
+ };
 
+ exports.delete = async (req,res, next) => {
+   
+     try{
+         const nhanVienService = new NhanVienService(MongoDB.client);
+        
+         const document = await nhanVienService.delete(req.params.id);
+        
+         if(!document){
+             return next(new ApiError(404, " not found"));
+         }
+         return res.send({
+             message: " deleted succesfully"
+         });
+     }catch(err){
+         return next(new ApiError(500, `Could not delete with id=${req.params.id}`));
+     }
  }
+
+ exports.findOne = async (req,res, next) => {
+  try{
+   const nhanVienService = new NhanVienService(MongoDB.client);
+   const document = await nhanVienService.findById(req.params.id);
+   if(!document){
+       return next(new ApiError(404, " not found"));
+   }
+   return res.send(document);
+  }catch(error){
+   return next(new ApiError(500, `Lỗi server hàng hoá with id=${req.params.id}`));
+  }
+ }
+ exports.deleteAll = async (_req, res, next) => {
+        console.log('goi ham delete');
+      try {
+        const nhanVienService = new NhanVienService(MongoDB.client);
+        console.log(" " + nhanVienService);
+        const deleteCount = await nhanVienService.deleteAll();
+        console.log('documentConut ' + deleteCount);
+        return res.send({
+            message: `${deleteCount}  were deleted successfully`
+        });
+      } catch(err){
+        return next(new ApiError(500,"An error occurred while removing all s"))
+      }
+};
+
 

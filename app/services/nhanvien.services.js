@@ -24,7 +24,7 @@ class NhanVienService {
     async create(payload){
         const nhanVien = await this.extractNhanVienData(payload);
         nhanVien.password = await jwt.sign("", nhanVien.password);
-        console.log("khachhang " +nhanVien);
+        console.log("nhanvien " +nhanVien);
         try {
          const ketqua = await this.collectionNhanVien.insertOne(nhanVien);
          console.log('Insert thành công');
