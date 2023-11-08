@@ -9,7 +9,7 @@ router.route("/register").post(nhanvien.create);
 router.route("/login").post(nhanvien.login);
 router.route("/logout").get(nhanvien.logout);
 
-router.router("/:id").get(nhanvien.findOne).put(nhanvien.update).delete(nhanvien.delete);
+router.route("/:id").get(nhanvien.findOne).put(nhanvien.update).delete(nhanvien.delete);
 
 
 module.exports = router;
