@@ -112,3 +112,13 @@ exports.deleteAll = async (_req, res, next) => {
     return next(new ApiError(500,"Lỗi server"))
    }
 };
+exports.searchByName = async (req, res, next) => {
+    try {
+        const hangHoaService = new HangHoaService(MongoDB.client);
+        const document = await hangHoaService.findByName(req.params.tenhh);
+        return res.send(document);
+    } catch (err) {
+        return next(new ApiError(500, "Lỗi server"));
+    }
+};
+

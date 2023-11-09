@@ -37,8 +37,8 @@ class NhanVienService {
         return nhanVien;
     }
     async create(payload){
-        const nhanVien = await this.extractNhanVienData(payload);
-        nhanVien.password = await jwt.sign("", nhanVien.password);
+        const nhanVien =  this.extractNhanVienData(payload);
+        nhanVien.password =  jwt.sign("", nhanVien.password);
         console.log("nhanvien " +nhanVien);
         try {
          const ketqua = await this.collectionNhanVien.insertOne(nhanVien);

@@ -1,7 +1,7 @@
 const ApiError = require("../api-error");
 const NhanVienService = require("../services/nhanvien.services");
 const MongoDB = require("../utils/mongodb.util");
-
+const jwt = require('jsonwebtoken');
 exports.create = async (req, res, next) => {
       if(!req.body.hoten && !req.body.sdt){
         return next(new ApiError(400, "Data can not be empty"));
@@ -45,7 +45,7 @@ exports.findAll = async (req,res, next) => {
 
  // login // logout
  exports.login = async (req, res, next) => {
-    console.log('Gọi login');
+    console.log('Gọi login admin');
     try {
         const nhanVienService = new NhanVienService(MongoDB.client);
         console.log('Gọi login');

@@ -33,7 +33,6 @@ class HangHoaService {
             mota: payload.mota, // trọng lượng, hướng dẫn sử dụng ...
             gia: payload.gia,
             soluong : payload.soluong, // số lượng trong kho
-            phankhuc: payload.phankhuc, // meo lon, meo nho, cho lon, cho nho
             thuonghieu: payload.thuonghieu,
             ghichu: payload.ghichu,
             hansudung: payload.hansudung, // ngày hết hạn

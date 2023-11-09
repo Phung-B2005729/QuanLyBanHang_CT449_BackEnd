@@ -10,5 +10,6 @@ router.route("/").get(hanghoa.findAll).post(hanghoa.create).delete(hanghoa.delet
 router.route("/:id").get(hanghoa.findOne).put(hanghoa.update).delete(hanghoa.delete);
 
 router.route("/loaihang/:id").get(hanghoa.findAllByLoaiHang);
+router.route("/search/:tenhh").get(hanghoa.searchByName);
 
 module.exports = router;
