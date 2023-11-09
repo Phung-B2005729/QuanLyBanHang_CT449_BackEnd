@@ -13,6 +13,7 @@ exports.create = async (req, res, next) => {
     console.log(req.body);
     const document = await hangHoaService.create(req.body);
     console.log(document);
+    console.log(document.insertedId);
     return res.send(document);
   }catch(err){
     return next(new ApiError(500, "Lỗi server"));

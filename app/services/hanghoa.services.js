@@ -10,7 +10,6 @@ class HangHoaService {
             mota: payload.mota, // trọng lượng, hướng dẫn sử dụng ...
             gia: payload.gia,
             soluong : payload.soluong ?? 0, // số lượng trong kho
-            phankhuc: payload.phankhuc, // meo lon, meo nho, cho lon, cho nho
             thuonghieu: payload.thuonghieu,
             ghichu: payload.ghichu,
             hansudung: payload.hansudung, // ngày hết hạn
@@ -47,7 +46,7 @@ class HangHoaService {
         return hangHoa;
     }
     async create(payload){
-        const hangHoa = await this.extractHangHoaData(payload);
+        const hangHoa =  this.extractHangHoaData(payload);
         console.log(hangHoa);
         try {
          const ketqua = await this.collectionHangHoa.insertOne(hangHoa);

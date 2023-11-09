@@ -104,6 +104,7 @@ exports.findAllIdKhacHang = async (req,res, next) => {
     }
     return res.send(document);
 }
+
 exports.deleteAll = async (_req, res, next) => {
     console.log('goi ham delete');
    try {

@@ -138,6 +138,22 @@ exports.update = async (req,res, next) => {
         return next(new ApiError(500, "Lỗi server "));
     }
  }
+ exports.deleteByIdHangHoa = async (req,res, next) => {
+    try{
+        const hinhAnhService = new HinhAnhService(MongoDB.client);
+       
+      const document =  await hinhAnhService.deleteByIdHangHoa(req.params.id);
+       
+        if(!document){
+            return next(new ApiError(404, " not found"));
+        }
+        return res.send({
+            message: " deleted succesfully"
+        });
+    }catch(err){
+        return next(new ApiError(500, `Could not delete with id=${req.params.id}`));
+    }
+}
 
 
 

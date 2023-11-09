@@ -10,7 +10,7 @@ class HinhAnhService {
         const hinhanh = {
             linkanh: payload.linkanh,
             tenanh: payload.tenanh,
-            idhinhanh: payload.idhinhanh
+            idhanghoa: payload.idhanghoa
         }
         
         Object.keys(hinhanh).forEach((key)=>{
@@ -26,7 +26,7 @@ class HinhAnhService {
         const hinhanh = {
             linkanh: payload.linkanh,
             tenanh: payload.tenanh,
-            idhinhanh: payload.idhinhanh
+            idhanghoa: payload.idhanghoa
         }
         
         Object.keys(hinhanh).forEach((key)=>{
@@ -92,5 +92,10 @@ class HinhAnhService {
        console.log("resu " +result);
        return result;
     }
+   async deleteByIdHangHoa(id){
+    const filter = { idhanghoa: id };
+    const result = await this.collentionHinhAnh.deleteMany(filter);
+    return result;
+   }
 }
 module.exports = HinhAnhService;
