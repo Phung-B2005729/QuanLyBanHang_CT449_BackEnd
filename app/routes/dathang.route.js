@@ -9,6 +9,7 @@ router.route("/").get(dathang.findAll).post(dathang.create).delete(dathang.delet
 
 router.route("/:id").get(dathang.findOne).put(dathang.update).delete(dathang.delete);
 
-router.route("/khachhang/:idkhachhang").get(dathang.findAllIdKhacHang);
+router.route("/khachhang/:idkhachhang").get(dathang.findAllIdKhacHang).delete(dathang.deleteByIdKhachHang);
+router.route("/nhanvien/:idnhanvien").get(dathang.findAllIdNhanVien).delete(dathang.deleteByIdNhanVien);
 
 module.exports = router;

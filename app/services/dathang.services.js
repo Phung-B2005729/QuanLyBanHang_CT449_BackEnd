@@ -102,6 +102,16 @@ class DatHangService {
         const resutl = await this.collectionDatHang.deleteMany({});
         return resutl.deleteCount;
     }
+    async deleteByIdKhachHang(id){
+        const filter = { idkhachhang: id };
+        const result = await this.collectionDatHang.deleteMany(filter);
+        return result;
+       }
+    async deleteByIdNhanVien(id){
+        const filter = { idnhanvien: id };
+        const result = await this.collectionDatHang.deleteMany(filter);
+        return result;
+       }
 
 }
 

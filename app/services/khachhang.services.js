@@ -91,9 +91,10 @@ class KhachHangService {
         _id: ObjectId.isValid(id) ? new ObjectId(id): null,
        });
        console.log("resu " +result);
+       return result;
     }
     async deleteAll(){
-        const resutl = await this.collectionNhanVien.deleteMany({});
+        const resutl = await this.collectionKhachHang.deleteMany({});
         return resutl.deleteCount;
     }
 }

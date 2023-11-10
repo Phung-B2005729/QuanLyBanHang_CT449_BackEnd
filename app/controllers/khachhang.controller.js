@@ -79,17 +79,12 @@ exports.findAll = async (req,res, next) => {
  exports.logout = async (req, res, next) => {
   console.log('Gọi logout');
   try {
-    if(req.session.user){
+   
     req.session.user = null;
     return res.send({
-      message: "Logout successfully"
+      message: "Logout successfully",
+      token: req.session.user
     });
-  }
-  else{
-    return next(new ApiError(404, "Logout failed"))
-  }
-    
-  
   }catch(e){
     return next(new ApiError(500, "Lỗi server"));
   }

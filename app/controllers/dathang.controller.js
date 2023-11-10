@@ -104,6 +104,19 @@ exports.findAllIdKhacHang = async (req,res, next) => {
     }
     return res.send(document);
 }
+exports.findAllIdNhanVien = async (req,res, next) => {
+    let document = []
+    try {
+        const datHangService = new DatHangService(MongoDB.client);
+         document = await datHangService.find({
+            idnhanvien: req.params.idnhanvien
+        });
+        
+    }catch(err){
+        return next(new ApiError(500, "Lỗi server"));
+    }
+    return res.send(document);
+}
 
 exports.deleteAll = async (_req, res, next) => {
     console.log('goi ham delete');
@@ -118,3 +131,35 @@ exports.deleteAll = async (_req, res, next) => {
     return next(new ApiError(500,"Lỗi server"))
    }
 };
+exports.deleteByIdKhachHang = async (req,res, next) => {
+    try{
+        const datHangService = new DatHangService(MongoDB.client);
+       
+      const document =  await datHangService.deleteByIdKhachHang(req.params.idkhachhang);
+       
+        if(!document){
+            return next(new ApiError(404, " not found"));
+        }
+        return res.send({
+            message: " deleted succesfully"
+        });
+    }catch(err){
+        return next(new ApiError(500, `Could not delete with id=${req.params.idkhachhang}`));
+    }
+}
+exports.deleteByIdNhanVien= async (req,res, next) => {
+    try{
+        const datHangService = new DatHangService(MongoDB.client);
+       
+      const document =  await datHangService.deleteByIdNhanVien(req.params.idnhanvien);
+       
+        if(!document){
+            return next(new ApiError(404, " not found"));
+        }
+        return res.send({
+            message: " deleted succesfully"
+        });
+    }catch(err){
+        return next(new ApiError(500, `Could not delete with id=${req.params.idnhanvien}`));
+    }
+}
