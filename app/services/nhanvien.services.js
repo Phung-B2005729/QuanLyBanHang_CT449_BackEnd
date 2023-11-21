@@ -11,8 +11,9 @@ class NhanVienService {
             hoten: payload.hoten,
             sdt: payload.sdt,
             password: payload.password,
-            diachi : payload.diachi ?? '',
-            chucvu: payload.chucvu
+            diachi : payload.diachi,
+            chucvu: payload.chucvu,
+            quyen: payload.quyen
         }
         Object.keys(nhanVien).forEach((key)=>{
             if (nhanVien[key] === undefined || nhanVien[key] === null) {
@@ -29,7 +30,8 @@ class NhanVienService {
             sdt: payload.sdt,
             password: payload.password,
             diachi : payload.diachi ?? '',
-            chucvu: payload.chucvu
+            chucvu: payload.chucvu,
+            quyen: payload.quyen
         }
         Object.keys(nhanVien).forEach((key)=>{
             nhanVien[key] === undefined && delete nhanVien[key]
@@ -38,7 +40,10 @@ class NhanVienService {
     }
     async create(payload){
         const nhanVien =  this.extractNhanVienData(payload);
-        nhanVien.password =  jwt.sign("", nhanVien.password);
+        if(nhanVien.password!=''){
+            nhanVien.password =  jwt.sign("", nhanVien.password);
+        }
+       
         console.log("nhanvien " +nhanVien);
         try {
          const ketqua = await this.collectionNhanVien.insertOne(nhanVien);

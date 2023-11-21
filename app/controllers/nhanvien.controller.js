@@ -59,7 +59,7 @@ exports.findAll = async (req,res, next) => {
         console.log(document);
         req.session.admin = {
             id: document._id, // Ví dụ: lưu ID của người dùng
-            chuvu: document.chuvu // Ví dụ: lưu tên người dùng
+            quyen: document.quyen // Ví dụ: lưu tên người dùng
           };
           console.log(req.session.admin);
           return res.send({
