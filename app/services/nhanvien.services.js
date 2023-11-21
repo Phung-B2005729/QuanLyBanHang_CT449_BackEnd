@@ -84,6 +84,9 @@ class NhanVienService {
         };
         console.log("fileder" + filter);
         const update = this.extractNhanVienDataUpdate(payload);
+        if(update.password){
+           update.password = jwt.sign("", update.password);
+        }
         console.log(update);
         const result = await this.collectionNhanVien.findOneAndUpdate(
             filter, 
