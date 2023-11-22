@@ -96,6 +96,10 @@ exports.update = async (req,res, next) => {
     try{
      const khachHangService = new KhachHangService(MongoDB.client);
      console.log("goi ham update " + req.params.id + " " + req.body);
+     const existingSdt = await khachHangService.findOne({sdt : req.body.sdt});
+     if (existingSdt && existingSdt._id!=req.params.id) {
+      return next(new ApiError(403, "Số điện thoại đã được sử dụng ở một tài khoản khác"));
+    }
      const document = await khachHangService.update(req.params.id, req.body);
      if(!document){
          return next(new ApiError(404," not found"));
